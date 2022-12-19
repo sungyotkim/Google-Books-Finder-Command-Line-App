@@ -15,14 +15,23 @@ export class ReadingList {
     });
   }
 
+  isEmpty() {
+    return this.readingList.length === 0;
+  }
+
   async addBooks(booksAdded) {
+    console.clear();
     const [books, titles] = booksAdded;
 
     books.forEach((book) => {
       this.readingList.push(book);
     });
 
-    console.log(`${titles} were added to your list.`);
+    if (books.length === 1) {
+      console.log(`${titles} was added to your list.`);
+    } else {
+      console.log(`${titles} were added to your list.`);
+    }
 
     const options = ["View my reading list.", "Return to main menu."];
 

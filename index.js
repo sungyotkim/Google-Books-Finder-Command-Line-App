@@ -13,7 +13,14 @@ import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { handleResults } from "./handleResults.js";
 import { ReadingList } from "./readingList.js";
 
+// initialize reading list
 const readingList = new ReadingList();
+
+// helper functions
+const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
+const emptyListSpinner = createSpinner(
+  chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
+);
 
 async function welcome() {
   console.clear();
@@ -40,27 +47,39 @@ async function handleMainMenuOption(idx, err = false) {
       searchQuery = await searchByTitle();
       searchResults = await getBooks(searchQuery, "intitle");
       break;
+
     // handle search by author
     case 1:
       console.log(chalk.blue.bold("Search By Book Author"));
       searchQuery = await searchByAuthor();
       searchResults = await getBooks(searchQuery, "inauthor");
       break;
+
     // handle search by subject
     case 2:
       console.log(chalk.blue.bold("Search By Book Subject"));
       searchQuery = await searchBySubject();
       searchResults = await getBooks(searchQuery, "subject");
       break;
+
     // handle search by title and author
     case 3:
       console.log(chalk.blue.bold("Search By Book Title And Author"));
       searchQuery = await searchByTitleAndAuthor();
       searchResults = await getBooksByTitleAndAuthor(searchQuery);
       break;
+
     // handle view reading list
     case 4:
-      readingList.show();
+      // check if reading list is empty
+      if (readingList.isEmpty()) {
+        emptyListSpinner.start();
+        await sleep();
+        emptyListSpinner.stop();
+        welcome();
+      } else {
+        readingList.show();
+      }
       return;
     default:
       return;
@@ -79,7 +98,15 @@ async function handleMainMenuOption(idx, err = false) {
   const nextOption = await readingList.addBooks(booksAdded);
 
   if (nextOption === "View my reading list.") {
-    readingList.show();
+    // check if reading list is empty
+    if (readingList.isEmpty()) {
+      emptyListSpinner.start();
+      await sleep();
+      emptyListSpinner.stop();
+      welcome();
+    } else {
+      readingList.show();
+    }
   } else {
     welcome();
   }
