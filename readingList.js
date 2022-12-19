@@ -6,13 +6,21 @@ export class ReadingList {
     this.readingList = [];
   }
 
-  show() {
+  async show() {
     console.clear();
     console.log(chalk.blue.bold("Your reading list:"));
 
     this.readingList.forEach((item, i) => {
       console.log(`${i + 1}.${item}`);
     });
+
+    const res = await inquirer.prompt({
+      name: "return",
+      type: "input",
+      message: "Press Enter to return to main menu",
+    });
+
+    return res.return;
   }
 
   isEmpty() {

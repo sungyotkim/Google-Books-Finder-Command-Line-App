@@ -17,7 +17,7 @@ import { ReadingList } from "./readingList.js";
 const readingList = new ReadingList();
 
 // helper functions
-const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms = 1500) => new Promise((r) => setTimeout(r, ms));
 const emptyListSpinner = createSpinner(
   chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
 );
@@ -78,7 +78,8 @@ async function handleMainMenuOption(idx, err = false) {
         emptyListSpinner.stop();
         welcome();
       } else {
-        readingList.show();
+        await readingList.show();
+        welcome();
       }
       return;
     default:
@@ -105,7 +106,8 @@ async function handleMainMenuOption(idx, err = false) {
       emptyListSpinner.stop();
       welcome();
     } else {
-      readingList.show();
+      await readingList.show();
+      welcome();
     }
   } else {
     welcome();
