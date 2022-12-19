@@ -1,14 +1,36 @@
-export function handleResults(searchResults) {
+import inquirer from "inquirer";
+
+export async function handleResults(searchResults) {
   console.clear();
 
-  searchResults.forEach((res, i) => {
+  const resultsDisplay = [];
+
+  searchResults.forEach((res) => {
     const book = res.volumeInfo;
 
     const title = book.title;
-    const authors = book.authors.join(", ");
-    let publisher = book.publisher;
-    if (!publisher) publisher = "No Publisher Found";
+    const authors = book.authors ? book.authors.join(", ") : "no author found";
+    const publisher = book.publisher ? book.publisher : "no publisher found";
 
-    console.log(`${i + 1}: ${title} by ${authors} published by ${publisher}`);
+    resultsDisplay.push(` ${title} by ${authors} published by ${publisher}`);
   });
+
+  const choice = await inquirer.prompt({
+    name: "results",
+    type: "checkbox",
+    message: "Would you like to add any to your reading list?",
+    choices: resultsDisplay,
+  });
+
+  const res = choice.results;
+
+  // for viewability, split the choices into an array of book titles
+  const titles = [];
+
+  res.forEach((book) => {
+    let split = book.split(" by");
+    titles.push(split[0].slice(1));
+  });
+
+  return [res, titles.join(", ")];
 }

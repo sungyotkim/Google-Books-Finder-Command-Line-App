@@ -12,14 +12,10 @@ import {
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { handleResults } from "./handleResults.js";
 
-const sleep = (ms = 500) => new Promise((r) => setTimeout(r, ms));
-
 async function welcome() {
   console.log(
     chalk.blue.bold("Welcome to Google Books Finder Command Line App")
   );
-
-  await sleep();
 
   let res = await mainMenu();
 
@@ -72,7 +68,10 @@ async function handleMainMenuOption(idx, err = false) {
     return handleMainMenuOption(idx, true);
   }
 
-  handleResults(searchResults);
+  const booksAdded = await handleResults(searchResults);
+  console.log(booksAdded);
+
+  // TODO return handleBooksAdded(booksAdded);
 }
 
 // run with top level await
