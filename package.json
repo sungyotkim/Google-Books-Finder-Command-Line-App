@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This is a simple command line application that allows you to use the Google Books API to search for books and construct a reading list.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
