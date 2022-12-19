@@ -17,10 +17,11 @@ import { ReadingList } from "./readingList.js";
 const readingList = new ReadingList();
 
 // helper functions
-const sleep = (ms = 1500) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms = 1000) => new Promise((r) => setTimeout(r, ms));
 const emptyListSpinner = createSpinner(
   chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
 );
+const searchSpinner = createSpinner("Searching...");
 
 async function welcome() {
   console.clear();
@@ -85,6 +86,10 @@ async function handleMainMenuOption(idx, err = false) {
     default:
       return;
   }
+
+  searchSpinner.start();
+  await sleep();
+  searchSpinner.stop();
 
   // handle no results
   if (!searchResults) {
