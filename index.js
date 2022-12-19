@@ -9,6 +9,7 @@ import {
   searchBySubject,
   searchByTitleAndAuthor,
 } from "./bookSearch.js";
+import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 
 const sleep = (ms = 500) => new Promise((r) => setTimeout(r, ms));
 
@@ -33,25 +34,25 @@ async function handleMainMenuOption(idx) {
     case 0:
       console.log(chalk.blue.bold("Search By Book Title"));
       res = await searchByTitle();
-      handleSearchResult(res);
+      getBooks(res, "intitle");
       break;
     // handle search by author
     case 1:
       console.log(chalk.blue.bold("Search By Book Author"));
       res = await searchByAuthor();
-      handleSearchResult(res);
+      getBooks(res, "inauthor");
       break;
     // handle search by subject
     case 2:
       console.log(chalk.blue.bold("Search By Book Subject"));
       res = await searchBySubject();
-      handleSearchResult(res);
+      getBooks(res, "subject");
       break;
     // handle search by title and author
     case 3:
       console.log(chalk.blue.bold("Search By Book Title And Author"));
       res = await searchByTitleAndAuthor();
-      handleSearchResult(res);
+      getBooksByTitleAndAuthor(res);
       break;
     // handle view reading list
     case 4:
@@ -59,11 +60,6 @@ async function handleMainMenuOption(idx) {
     default:
       return;
   }
-}
-
-function handleSearchResult(query) {
-  console.log(Array.isArray(query));
-  console.log(query);
 }
 
 // run with top level await
