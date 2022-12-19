@@ -1,9 +1,6 @@
 import inquirer from "inquirer";
 
 export async function mainMenu() {
-  console.log("this is the main menu");
-
-  // await menuOptions();
   const options = [
     "Search for a book by title",
     "Search for a book by author",

@@ -10,6 +10,7 @@ import {
   searchByTitleAndAuthor,
 } from "./bookSearch.js";
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
+import { handleResults } from "./handleResults.js";
 
 const sleep = (ms = 500) => new Promise((r) => setTimeout(r, ms));
 
@@ -25,34 +26,37 @@ async function welcome() {
   handleMainMenuOption(res);
 }
 
-async function handleMainMenuOption(idx) {
-  console.clear();
-  let res;
+async function handleMainMenuOption(idx, err = false) {
+  // only clear if there are no error messages.
+  if (!err) console.clear();
+
+  let searchQuery;
+  let searchResults;
 
   switch (idx) {
     // handle search by title
     case 0:
       console.log(chalk.blue.bold("Search By Book Title"));
-      res = await searchByTitle();
-      getBooks(res, "intitle");
+      searchQuery = await searchByTitle();
+      searchResults = await getBooks(searchQuery, "intitle");
       break;
     // handle search by author
     case 1:
       console.log(chalk.blue.bold("Search By Book Author"));
-      res = await searchByAuthor();
-      getBooks(res, "inauthor");
+      searchQuery = await searchByAuthor();
+      searchResults = await getBooks(searchQuery, "inauthor");
       break;
     // handle search by subject
     case 2:
       console.log(chalk.blue.bold("Search By Book Subject"));
-      res = await searchBySubject();
-      getBooks(res, "subject");
+      searchQuery = await searchBySubject();
+      searchResults = await getBooks(searchQuery, "subject");
       break;
     // handle search by title and author
     case 3:
       console.log(chalk.blue.bold("Search By Book Title And Author"));
-      res = await searchByTitleAndAuthor();
-      getBooksByTitleAndAuthor(res);
+      searchQuery = await searchByTitleAndAuthor();
+      searchResults = await getBooksByTitleAndAuthor(searchQuery);
       break;
     // handle view reading list
     case 4:
@@ -60,6 +64,15 @@ async function handleMainMenuOption(idx) {
     default:
       return;
   }
+
+  // handle no results
+  if (!searchResults) {
+    console.clear();
+    console.log("No results found! Please try a different query.");
+    return handleMainMenuOption(idx, true);
+  }
+
+  handleResults(searchResults);
 }
 
 // run with top level await

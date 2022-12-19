@@ -8,23 +8,13 @@ export async function getBooks(query, queryType) {
   const res = await fetch(url, {
     method: "GET",
   });
-  let data = await res.json();
+  const data = await res.json();
 
-  // TODO need a handler for no results
-  console.log(data.totalItems);
+  if (data.totalItems === 0) return null;
 
-  let top5 = data.items.slice(0, 5);
+  const top5 = data.items.slice(0, 5);
 
-  top5.forEach((res, i) => {
-    const book = res.volumeInfo;
-
-    const title = book.title;
-    const authors = book.authors.join(", ");
-    let publisher = book.publisher;
-    if (!publisher) publisher = "No Publisher Found";
-
-    console.log(`${i + 1}: ${title} by ${authors} published by ${publisher}`);
-  });
+  return top5;
 }
 
 export async function getBooksByTitleAndAuthor(query) {
@@ -38,21 +28,11 @@ export async function getBooksByTitleAndAuthor(query) {
   const res = await fetch(url, {
     method: "GET",
   });
-  let data = await res.json();
+  const data = await res.json();
 
-  // TODO need a handler for no results
-  console.log(data.totalItems);
+  if (data.totalItems === 0) return null;
 
-  let top5 = data.items.slice(0, 5);
+  const top5 = data.items.slice(0, 5);
 
-  top5.forEach((res, i) => {
-    const book = res.volumeInfo;
-
-    const title = book.title;
-    const authors = book.authors.join(", ");
-    let publisher = book.publisher;
-    if (!publisher) publisher = "No Publisher Found";
-
-    console.log(`${i + 1}: ${title} by ${authors} published by ${publisher}`);
-  });
+  return top5;
 }
