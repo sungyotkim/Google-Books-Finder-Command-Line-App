@@ -1,0 +1,24 @@
+{
+  "name": "google-books-finder-command-line-app",
+  "version": "1.0.0",
+  "description": "This is a simple command line application that allows you to use the Google Books API to search for books and construct a reading list.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sungyotkim/Google-Books-Finder-Command-Line-App.git"
+  },
+  "author": "Sungyo Tommy Kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sungyotkim/Google-Books-Finder-Command-Line-App/issues"
+  },
+  "homepage": "https://github.com/sungyotkim/Google-Books-Finder-Command-Line-App#readme",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "inquirer": "^9.1.4",
+    "nanospinner": "^1.1.0"
+  }
+}
