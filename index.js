@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 
 import chalk from "chalk";
-import inquirer from "inquirer";
 import { createSpinner } from "nanospinner";
 import { mainMenu } from "./mainMenu.js";
+import {
+  searchByTitle,
+  searchByAuthor,
+  searchBySubject,
+  searchByTitleAndAuthor,
+} from "./bookSearch.js";
 
-const sleep = (ms = 1000) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms = 500) => new Promise((r) => setTimeout(r, ms));
 
 async function welcome() {
   console.log(
@@ -19,27 +24,46 @@ async function welcome() {
   handleMainMenuOption(res);
 }
 
-function handleMainMenuOption(idx) {
-  console.log(idx);
+async function handleMainMenuOption(idx) {
+  console.clear();
+  let res;
+
   switch (idx) {
+    // handle search by title
     case 0:
-      // handle search by title
+      console.log(chalk.blue.bold("Search By Book Title"));
+      res = await searchByTitle();
+      handleSearchResult(res);
       break;
+    // handle search by author
     case 1:
-      // handle search by author
+      console.log(chalk.blue.bold("Search By Book Author"));
+      res = await searchByAuthor();
+      handleSearchResult(res);
       break;
+    // handle search by subject
     case 2:
-      // handle search by subject
+      console.log(chalk.blue.bold("Search By Book Subject"));
+      res = await searchBySubject();
+      handleSearchResult(res);
       break;
+    // handle search by title and author
     case 3:
-      // handle search by title and author
+      console.log(chalk.blue.bold("Search By Book Title And Author"));
+      res = await searchByTitleAndAuthor();
+      handleSearchResult(res);
       break;
+    // handle view reading list
     case 4:
-      // handle view reading list
       break;
     default:
       return;
   }
+}
+
+function handleSearchResult(query) {
+  console.log(Array.isArray(query));
+  console.log(query);
 }
 
 // run with top level await
