@@ -14,8 +14,32 @@ async function welcome() {
 
   await sleep();
 
-  console.log("Please select an option below");
-  mainMenu();
+  let res = await mainMenu();
+
+  handleMainMenuOption(res);
+}
+
+function handleMainMenuOption(idx) {
+  console.log(idx);
+  switch (idx) {
+    case 0:
+      // handle search by title
+      break;
+    case 1:
+      // handle search by author
+      break;
+    case 2:
+      // handle search by subject
+      break;
+    case 3:
+      // handle search by title and author
+      break;
+    case 4:
+      // handle view reading list
+      break;
+    default:
+      return;
+  }
 }
 
 // run with top level await

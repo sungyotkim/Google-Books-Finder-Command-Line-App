@@ -1,27 +1,5 @@
 import inquirer from "inquirer";
 
-function handleChoice(idx) {
-  switch (idx) {
-    case 0:
-      // handle search by title
-      break;
-    case 1:
-      // handle search by author
-      break;
-    case 2:
-      // handle search by subject
-      break;
-    case 3:
-      // handle search by title and author
-      break;
-    case 4:
-      // handle view reading list
-      break;
-    default:
-      return;
-  }
-}
-
 export async function mainMenu() {
   console.log("this is the main menu");
 
@@ -44,5 +22,5 @@ export async function mainMenu() {
   // convert user input into an index of options
   let index = options.indexOf(choice["Main Menu"]);
 
-  return handleChoice(index);
+  return index;
 }
