@@ -11,8 +11,12 @@ import {
 } from "./bookSearch.js";
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { handleResults } from "./handleResults.js";
+import { ReadingList } from "./readingList.js";
+
+const readingList = new ReadingList();
 
 async function welcome() {
+  console.clear();
   console.log(
     chalk.blue.bold("Welcome to Google Books Finder Command Line App")
   );
@@ -56,7 +60,8 @@ async function handleMainMenuOption(idx, err = false) {
       break;
     // handle view reading list
     case 4:
-      break;
+      readingList.show();
+      return;
     default:
       return;
   }
@@ -69,11 +74,16 @@ async function handleMainMenuOption(idx, err = false) {
   }
 
   const booksAdded = await handleResults(searchResults);
-  console.log(booksAdded);
 
-  // TODO return handleBooksAdded(booksAdded);
+  // add books
+  const nextOption = await readingList.addBooks(booksAdded);
+
+  if (nextOption === "View my reading list.") {
+    readingList.show();
+  } else {
+    welcome();
+  }
 }
 
 // run with top level await
-console.clear();
 await welcome();
