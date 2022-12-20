@@ -1,6 +1,11 @@
 # Google-Books-Finder-Command-Line-App
 This is a simple command line application that allows you to use the Google Books API to search for books and construct a reading list. This application was created using Node.js to utilize colorful text and interactive packages for a better user experience.
 
+## Try the app
+```
+npx google-books-finder-command-line-app
+```
+
 ## Technologies/APIs Used
 - JavaScript
 - Google Books API
