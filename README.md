@@ -6,6 +6,14 @@ This is a simple command line application that allows you to use the Google Book
 npx google-books-finder-command-line-app
 ```
 
+## Or if you would like run a clone
+```
+clone the github repository
+cd into directory
+run npm i
+run node index.js
+```
+
 ## Technologies/APIs Used
 - JavaScript
 - Google Books API
