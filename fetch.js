@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
+import { createSpinner } from "nanospinner";
 
-export async function getBooks(query, queryType, searchSpinner) {
+const searchSpinner = createSpinner("Searching...");
+
+export async function getBooks(query, queryType) {
   searchSpinner.start();
   let url = "https://www.googleapis.com/books/v1/volumes?q=";
 
@@ -12,6 +15,7 @@ export async function getBooks(query, queryType, searchSpinner) {
     });
 
     const data = await res.json();
+    searchSpinner.stop();
 
     if (data.totalItems === 0) return null;
 
@@ -19,11 +23,12 @@ export async function getBooks(query, queryType, searchSpinner) {
 
     return top5;
   } catch (err) {
+    searchSpinner.stop();
     return "error";
   }
 }
 
-export async function getBooksByTitleAndAuthor(query, searchSpinner) {
+export async function getBooksByTitleAndAuthor(query) {
   searchSpinner.start();
   const [title, author] = query;
 
@@ -36,6 +41,7 @@ export async function getBooksByTitleAndAuthor(query, searchSpinner) {
       method: "GET",
     });
     const data = await res.json();
+    searchSpinner.stop();
 
     if (data.totalItems === 0) return null;
 
@@ -43,6 +49,7 @@ export async function getBooksByTitleAndAuthor(query, searchSpinner) {
 
     return top5;
   } catch (err) {
+    searchSpinner.stop();
     return "error";
   }
 }
