@@ -11,7 +11,7 @@ export function handleViewReadingList(readingList, welcome) {
   }
 }
 
-export async function handleEmptyList(welcome) {
+async function handleEmptyList(welcome) {
   // pause temporarily to allow user to read the error message for empty reading list before redirecting
   const pause = (ms = 700) => new Promise((r) => setTimeout(r, ms));
   const emptyListSpinner = createSpinner(
@@ -25,7 +25,7 @@ export async function handleEmptyList(welcome) {
   welcome();
 }
 
-export async function handleShowList(readingList, welcome) {
+async function handleShowList(readingList, welcome) {
   showReadingList(readingList);
   await returnToMenuPrompt();
 
