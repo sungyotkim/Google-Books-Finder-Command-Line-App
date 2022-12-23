@@ -1,20 +1,26 @@
 import fetch from "node-fetch";
 
-export async function getBooks(query, queryType) {
+export async function getBooks(query, queryType, searchSpinner) {
+  searchSpinner.start();
   let url = "https://www.googleapis.com/books/v1/volumes?q=";
 
   url = `${url}${queryType}:${query}`;
 
-  const res = await fetch(url, {
-    method: "GET",
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+    });
 
-  if (data.totalItems === 0) return null;
+    const data = await res.json();
 
-  const top5 = data.items.slice(0, 5);
+    if (data.totalItems === 0) return null;
 
-  return top5;
+    const top5 = data.items.slice(0, 5);
+
+    return top5;
+  } catch (err) {
+    return "error";
+  }
 }
 
 export async function getBooksByTitleAndAuthor(query) {
@@ -25,14 +31,18 @@ export async function getBooksByTitleAndAuthor(query) {
 
   url = `${url}intitle:${title}+inauthor:${author}`;
 
-  const res = await fetch(url, {
-    method: "GET",
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+    });
+    const data = await res.json();
 
-  if (data.totalItems === 0) return null;
+    if (data.totalItems === 0) return null;
 
-  const top5 = data.items.slice(0, 5);
+    const top5 = data.items.slice(0, 5);
 
-  return top5;
+    return top5;
+  } catch (err) {
+    return "error";
+  }
 }

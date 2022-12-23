@@ -23,8 +23,8 @@ const emptyListSpinner = createSpinner(
 );
 const searchSpinner = createSpinner("Searching...");
 
-async function welcome() {
-  console.clear();
+async function welcome(clear = true) {
+  if (clear) console.clear();
   console.log(
     chalk.blue.bold("Welcome to Google Books Finder Command Line App")
   );
@@ -46,7 +46,7 @@ async function handleMainMenuOption(idx, err = false) {
     case 0:
       console.log(chalk.blue.bold("Search By Book Title"));
       searchQuery = await searchByTitle();
-      searchResults = await getBooks(searchQuery, "intitle");
+      searchResults = await getBooks(searchQuery, "intitle", searchSpinner);
       break;
 
     // handle search by author
@@ -87,8 +87,6 @@ async function handleMainMenuOption(idx, err = false) {
       return;
   }
 
-  searchSpinner.start();
-  await sleep();
   searchSpinner.stop();
 
   // handle no results
@@ -96,6 +94,11 @@ async function handleMainMenuOption(idx, err = false) {
     console.clear();
     console.log("No results found! Please try a different query.");
     return handleMainMenuOption(idx, true);
+  } else if (searchResults === "error") {
+    console.clear();
+    console.log("We ran into an error, returning you to main menu.");
+    console.log("Please check if your internet connection is online.");
+    return welcome(false);
   }
 
   const booksAdded = await handleResults(searchResults);
