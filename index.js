@@ -10,8 +10,8 @@ import {
 } from "./bookSearch.js";
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { ReadingList } from "./readingList/readingList.js";
-import { handleResults } from "./handleSearchResults/handleResults.js";
 import { handleViewReadingList } from "./helperFunctions/readingListHelperFunctions.js";
+import { verifySearchResults } from "./helperFunctions/searchResultsHelperFunctions.js";
 
 const readingList = new ReadingList();
 
@@ -66,39 +66,13 @@ async function handleMainMenuOption(idx, err = false) {
       return;
   }
 
-  verifySearchResults(searchResults, idx);
-}
-
-async function verifySearchResults(searchResults, idx) {
-  console.clear();
-  if (!searchResults) {
-    handleNoSearchResults(idx);
-  } else if (searchResults === "error") {
-    handleSearchResultsError();
-  } else {
-    const nextOption = await handleResults(searchResults, readingList);
-    handleNextOption(nextOption);
-  }
-}
-
-async function handleNextOption(nextOption) {
-  if (nextOption === "View my reading list.") {
-    console.clear();
-    handleViewReadingList(readingList, welcome);
-  } else {
-    welcome();
-  }
-}
-
-function handleNoSearchResults(idx) {
-  console.log("No results found! Please try a different query.");
-  handleMainMenuOption(idx, true);
-}
-
-function handleSearchResultsError() {
-  console.log("We ran into an error, returning you to main menu.");
-  console.log("Please check if your internet connection is online.");
-  welcome(false);
+  verifySearchResults(
+    searchResults,
+    idx,
+    readingList,
+    handleMainMenuOption,
+    welcome
+  );
 }
 
 await welcome();
