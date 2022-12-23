@@ -6,7 +6,6 @@ import { convertToTitles } from "./convertToTitles.js";
 import { logAddBooksMessage } from "./logAddBooksMessage.js";
 
 export async function handleResults(results, readingList) {
-  console.clear();
   const display = addToDisplay(results);
   const books = await addAnyToReadingListPrompt(display);
   const titles = convertToTitles(books);

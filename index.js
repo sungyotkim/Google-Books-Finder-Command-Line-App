@@ -65,7 +65,9 @@ async function handleMainMenuOption(idx, err = false) {
       } else {
         handleShowList();
       }
+
     default:
+      console.log("Unexpected error, exiting the application.");
       return;
   }
 
@@ -73,6 +75,7 @@ async function handleMainMenuOption(idx, err = false) {
 }
 
 async function verifySearchResults(searchResults, idx) {
+  console.clear();
   if (!searchResults) {
     handleNoSearchResults(idx);
   } else if (searchResults === "error") {
@@ -96,13 +99,13 @@ async function handleNextOption(nextOption) {
   }
 }
 
-async function handleEmptyList() {
-  // pause temporarily to allow user to read the error message for empty reading list before redirecting
-  const pause = (ms = 700) => new Promise((r) => setTimeout(r, ms));
-  const emptyListSpinner = createSpinner(
-    chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
-  );
+// pause temporarily to allow user to read the error message for empty reading list before redirecting
+const pause = (ms = 700) => new Promise((r) => setTimeout(r, ms));
+const emptyListSpinner = createSpinner(
+  chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
+);
 
+async function handleEmptyList() {
   emptyListSpinner.start();
   await pause();
   emptyListSpinner.stop();
@@ -116,16 +119,14 @@ async function handleShowList() {
 }
 
 function handleNoSearchResults(idx) {
-  console.clear();
   console.log("No results found! Please try a different query.");
-  return handleMainMenuOption(idx, true);
+  handleMainMenuOption(idx, true);
 }
 
 function handleSearchResultsError() {
-  console.clear();
   console.log("We ran into an error, returning you to main menu.");
   console.log("Please check if your internet connection is online.");
-  return welcome(false);
+  welcome(false);
 }
 
 await welcome();
