@@ -86,6 +86,10 @@ async function handleMainMenuOption(idx, err = false) {
 
   searchSpinner.stop();
 
+  verifySearchResults(searchResults, idx);
+}
+
+async function verifySearchResults(searchResults, idx) {
   if (!searchResults) {
     console.clear();
     console.log("No results found! Please try a different query.");
@@ -95,10 +99,13 @@ async function handleMainMenuOption(idx, err = false) {
     console.log("We ran into an error, returning you to main menu.");
     console.log("Please check if your internet connection is online.");
     return welcome(false);
+  } else {
+    const nextOption = await handleResults(searchResults, readingList);
+    handleNextOption(nextOption);
   }
+}
 
-  const nextOption = await handleResults(searchResults, readingList);
-
+async function handleNextOption(nextOption) {
   if (nextOption === "View my reading list.") {
     console.clear();
     if (readingList.isEmpty()) {
