@@ -10,12 +10,10 @@ import {
   searchByTitleAndAuthor,
 } from "./bookSearch.js";
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
-import { handleResults } from "./handleResults.js";
 import { ReadingList } from "./readingList/readingList.js";
-import {
-  showReadingList,
-  returnToMenuPrompt,
-} from "./readingList/showReadingList.js";
+import { showReadingList } from "./readingList/showReadingList.js";
+import { returnToMenuPrompt } from "./prompts/returnToMenuPrompt.js";
+import { handleResults } from "./handleSearchResults/handleResults.js";
 
 const readingList = new ReadingList();
 
@@ -99,9 +97,7 @@ async function handleMainMenuOption(idx, err = false) {
     return welcome(false);
   }
 
-  const booksAdded = await handleResults(searchResults);
-
-  const nextOption = await readingList.addBooks(booksAdded);
+  const nextOption = await handleResults(searchResults, readingList);
 
   if (nextOption === "View my reading list.") {
     console.clear();
