@@ -14,6 +14,7 @@ import { ReadingList } from "./readingList/readingList.js";
 import { showReadingList } from "./readingList/showReadingList.js";
 import { returnToMenuPrompt } from "./prompts/returnToMenuPrompt.js";
 import { handleResults } from "./handleSearchResults/handleResults.js";
+import { handleViewReadingList } from "./helperFunctions/readingListHelperFunctions.js";
 
 const readingList = new ReadingList();
 
@@ -60,7 +61,7 @@ async function handleMainMenuOption(idx, err = false) {
       break;
 
     case 4:
-      handleViewReadingList();
+      handleViewReadingList(readingList, welcome);
       return;
 
     default:
@@ -86,40 +87,40 @@ async function verifySearchResults(searchResults, idx) {
 async function handleNextOption(nextOption) {
   if (nextOption === "View my reading list.") {
     console.clear();
-    handleViewReadingList();
+    handleViewReadingList(readingList, welcome);
   } else {
     welcome();
   }
 }
 
-function handleViewReadingList() {
-  if (readingList.isEmpty()) {
-    handleEmptyList();
-  } else {
-    handleShowList();
-  }
-}
+// function handleViewReadingList() {
+//   if (readingList.isEmpty()) {
+//     handleEmptyList();
+//   } else {
+//     handleShowList();
+//   }
+// }
 
-async function handleEmptyList() {
-  // pause temporarily to allow user to read the error message for empty reading list before redirecting
-  const pause = (ms = 700) => new Promise((r) => setTimeout(r, ms));
-  const emptyListSpinner = createSpinner(
-    chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
-  );
+// async function handleEmptyList() {
+//   // pause temporarily to allow user to read the error message for empty reading list before redirecting
+//   const pause = (ms = 700) => new Promise((r) => setTimeout(r, ms));
+//   const emptyListSpinner = createSpinner(
+//     chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
+//   );
 
-  emptyListSpinner.start();
-  await pause();
-  emptyListSpinner.stop();
+//   emptyListSpinner.start();
+//   await pause();
+//   emptyListSpinner.stop();
 
-  welcome();
-}
+//   welcome();
+// }
 
-async function handleShowList() {
-  showReadingList(readingList);
-  await returnToMenuPrompt();
+// async function handleShowList() {
+//   showReadingList(readingList);
+//   await returnToMenuPrompt();
 
-  welcome();
-}
+//   welcome();
+// }
 
 function handleNoSearchResults(idx) {
   console.log("No results found! Please try a different query.");
