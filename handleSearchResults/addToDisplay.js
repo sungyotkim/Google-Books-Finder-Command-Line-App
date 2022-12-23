@@ -1,5 +1,5 @@
 export function addToDisplay(results) {
-  const resultsDisplay = [];
+  const display = [];
 
   results.forEach((res) => {
     const book = res.volumeInfo;
@@ -8,8 +8,8 @@ export function addToDisplay(results) {
     const authors = book.authors ? book.authors.join(", ") : "no author found";
     const publisher = book.publisher ? book.publisher : "no publisher found";
 
-    resultsDisplay.push(` ${title} by ${authors} published by ${publisher}`);
+    display.push(` ${title} by ${authors} published by ${publisher}`);
   });
 
-  return resultsDisplay;
+  return display;
 }
