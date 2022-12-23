@@ -2,7 +2,7 @@
 
 import chalk from "chalk";
 import { createSpinner } from "nanospinner";
-import { mainMenu } from "./mainMenu.js";
+import { mainMenuPrompt } from "./prompts/mainMenuPrompt.js";
 import {
   searchByTitle,
   searchByAuthor,
@@ -30,7 +30,7 @@ async function welcome(clear = true) {
     chalk.blue.bold("Welcome to Google Books Finder Command Line App")
   );
 
-  let res = await mainMenu();
+  let res = await mainMenuPrompt();
 
   handleMainMenuOption(res);
 }

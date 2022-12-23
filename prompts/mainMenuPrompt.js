@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 
-export async function mainMenu() {
+export async function mainMenuPrompt() {
   const options = [
     "Search for a book by title",
     "Search for a book by author",
