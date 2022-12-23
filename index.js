@@ -60,11 +60,7 @@ async function handleMainMenuOption(idx, err = false) {
       break;
 
     case 4:
-      if (readingList.isEmpty()) {
-        handleEmptyList();
-      } else {
-        handleShowList();
-      }
+      handleViewReadingList();
       return;
 
     default:
@@ -90,13 +86,17 @@ async function verifySearchResults(searchResults, idx) {
 async function handleNextOption(nextOption) {
   if (nextOption === "View my reading list.") {
     console.clear();
-    if (readingList.isEmpty()) {
-      handleEmptyList();
-    } else {
-      handleShowList();
-    }
+    handleViewReadingList();
   } else {
     welcome();
+  }
+}
+
+function handleViewReadingList() {
+  if (readingList.isEmpty()) {
+    handleEmptyList();
+  } else {
+    handleShowList();
   }
 }
 
@@ -110,12 +110,14 @@ async function handleEmptyList() {
   emptyListSpinner.start();
   await pause();
   emptyListSpinner.stop();
+
   welcome();
 }
 
 async function handleShowList() {
   showReadingList(readingList);
   await returnToMenuPrompt();
+
   welcome();
 }
 
