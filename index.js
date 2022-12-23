@@ -71,10 +71,7 @@ async function handleMainMenuOption(idx, err = false) {
 
     case 4:
       if (readingList.isEmpty()) {
-        emptyListSpinner.start();
-        await sleep();
-        emptyListSpinner.stop();
-        welcome();
+        handleEmptyList();
       } else {
         showReadingList(readingList);
         await returnToMenuPrompt();
@@ -109,10 +106,7 @@ async function handleNextOption(nextOption) {
   if (nextOption === "View my reading list.") {
     console.clear();
     if (readingList.isEmpty()) {
-      emptyListSpinner.start();
-      await sleep();
-      emptyListSpinner.stop();
-      welcome();
+      handleEmptyList();
     } else {
       showReadingList(readingList);
       await returnToMenuPrompt();
@@ -121,6 +115,13 @@ async function handleNextOption(nextOption) {
   } else {
     welcome();
   }
+}
+
+async function handleEmptyList() {
+  emptyListSpinner.start();
+  await sleep();
+  emptyListSpinner.stop();
+  welcome();
 }
 
 await welcome();
