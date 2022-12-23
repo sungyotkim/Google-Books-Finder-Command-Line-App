@@ -11,7 +11,11 @@ import {
 } from "./bookSearch.js";
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { handleResults } from "./handleResults.js";
-import { ReadingList } from "./readingList.js";
+import { ReadingList } from "./readingList/readingList.js";
+import {
+  showReadingList,
+  returnToMenuPrompt,
+} from "./readingList/showReadingList.js";
 
 const readingList = new ReadingList();
 
@@ -74,10 +78,10 @@ async function handleMainMenuOption(idx, err = false) {
         emptyListSpinner.stop();
         welcome();
       } else {
-        await readingList.show();
+        showReadingList(readingList);
+        await returnToMenuPrompt();
         welcome();
       }
-      return;
     default:
       return;
   }
@@ -100,13 +104,15 @@ async function handleMainMenuOption(idx, err = false) {
   const nextOption = await readingList.addBooks(booksAdded);
 
   if (nextOption === "View my reading list.") {
+    console.clear();
     if (readingList.isEmpty()) {
       emptyListSpinner.start();
       await sleep();
       emptyListSpinner.stop();
       welcome();
     } else {
-      await readingList.show();
+      showReadingList(readingList);
+      await returnToMenuPrompt();
       welcome();
     }
   } else {

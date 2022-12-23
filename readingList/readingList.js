@@ -1,29 +1,11 @@
 import inquirer from "inquirer";
-import chalk from "chalk";
 
 export class ReadingList {
   constructor() {
     this.readingList = [];
   }
 
-  async show() {
-    console.clear();
-    console.log(chalk.blue.bold("Your reading list:"));
-
-    this.readingList.forEach((item, i) => {
-      console.log(`${i + 1}.${item}`);
-    });
-
-    const res = await inquirer.prompt({
-      name: "return",
-      type: "input",
-      message: "Press Enter to return to main menu",
-    });
-
-    return res.return;
-  }
-
-  async isEmpty() {
+  isEmpty() {
     return this.readingList.length === 0;
   }
 
