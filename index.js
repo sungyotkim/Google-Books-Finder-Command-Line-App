@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import chalk from "chalk";
-import { createSpinner } from "nanospinner";
 import { mainMenuPrompt } from "./prompts/mainMenuPrompt.js";
 import {
   searchByTitle,
@@ -11,8 +10,6 @@ import {
 } from "./bookSearch.js";
 import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { ReadingList } from "./readingList/readingList.js";
-import { showReadingList } from "./readingList/showReadingList.js";
-import { returnToMenuPrompt } from "./prompts/returnToMenuPrompt.js";
 import { handleResults } from "./handleSearchResults/handleResults.js";
 import { handleViewReadingList } from "./helperFunctions/readingListHelperFunctions.js";
 
@@ -92,35 +89,6 @@ async function handleNextOption(nextOption) {
     welcome();
   }
 }
-
-// function handleViewReadingList() {
-//   if (readingList.isEmpty()) {
-//     handleEmptyList();
-//   } else {
-//     handleShowList();
-//   }
-// }
-
-// async function handleEmptyList() {
-//   // pause temporarily to allow user to read the error message for empty reading list before redirecting
-//   const pause = (ms = 700) => new Promise((r) => setTimeout(r, ms));
-//   const emptyListSpinner = createSpinner(
-//     chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
-//   );
-
-//   emptyListSpinner.start();
-//   await pause();
-//   emptyListSpinner.stop();
-
-//   welcome();
-// }
-
-// async function handleShowList() {
-//   showReadingList(readingList);
-//   await returnToMenuPrompt();
-
-//   welcome();
-// }
 
 function handleNoSearchResults(idx) {
   console.log("No results found! Please try a different query.");
