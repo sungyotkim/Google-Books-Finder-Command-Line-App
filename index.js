@@ -13,11 +13,10 @@ import { getBooks, getBooksByTitleAndAuthor } from "./fetch.js";
 import { handleResults } from "./handleResults.js";
 import { ReadingList } from "./readingList.js";
 
-// initialize reading list
 const readingList = new ReadingList();
 
-// helper functions
-const sleep = (ms = 1000) => new Promise((r) => setTimeout(r, ms));
+// sleep temporarily to allow user to read the error message for empty reading list before redirecting
+const sleep = (ms = 700) => new Promise((r) => setTimeout(r, ms));
 const emptyListSpinner = createSpinner(
   chalk.red.bold("Your list is empty! Redirecting you to the main menu...")
 );
@@ -35,44 +34,40 @@ async function welcome(clear = true) {
 }
 
 async function handleMainMenuOption(idx, err = false) {
-  // only clear if there are no error messages.
   if (!err) console.clear();
 
   let searchQuery;
   let searchResults;
 
   switch (idx) {
-    // handle search by title
     case 0:
       console.log(chalk.blue.bold("Search By Book Title"));
       searchQuery = await searchByTitle();
       searchResults = await getBooks(searchQuery, "intitle", searchSpinner);
       break;
 
-    // handle search by author
     case 1:
       console.log(chalk.blue.bold("Search By Book Author"));
       searchQuery = await searchByAuthor();
-      searchResults = await getBooks(searchQuery, "inauthor");
+      searchResults = await getBooks(searchQuery, "inauthor", searchSpinner);
       break;
 
-    // handle search by subject
     case 2:
       console.log(chalk.blue.bold("Search By Book Subject"));
       searchQuery = await searchBySubject();
-      searchResults = await getBooks(searchQuery, "subject");
+      searchResults = await getBooks(searchQuery, "subject", searchSpinner);
       break;
 
-    // handle search by title and author
     case 3:
       console.log(chalk.blue.bold("Search By Book Title And Author"));
       searchQuery = await searchByTitleAndAuthor();
-      searchResults = await getBooksByTitleAndAuthor(searchQuery);
+      searchResults = await getBooksByTitleAndAuthor(
+        searchQuery,
+        searchSpinner
+      );
       break;
 
-    // handle view reading list
     case 4:
-      // check if reading list is empty
       if (readingList.isEmpty()) {
         emptyListSpinner.start();
         await sleep();
@@ -89,7 +84,6 @@ async function handleMainMenuOption(idx, err = false) {
 
   searchSpinner.stop();
 
-  // handle no results
   if (!searchResults) {
     console.clear();
     console.log("No results found! Please try a different query.");
@@ -103,11 +97,9 @@ async function handleMainMenuOption(idx, err = false) {
 
   const booksAdded = await handleResults(searchResults);
 
-  // add books
   const nextOption = await readingList.addBooks(booksAdded);
 
   if (nextOption === "View my reading list.") {
-    // check if reading list is empty
     if (readingList.isEmpty()) {
       emptyListSpinner.start();
       await sleep();
@@ -122,5 +114,4 @@ async function handleMainMenuOption(idx, err = false) {
   }
 }
 
-// run with top level await
 await welcome();

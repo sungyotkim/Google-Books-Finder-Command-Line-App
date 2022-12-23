@@ -23,8 +23,8 @@ export async function getBooks(query, queryType, searchSpinner) {
   }
 }
 
-export async function getBooksByTitleAndAuthor(query) {
-  // deconstruct the query array into title and author
+export async function getBooksByTitleAndAuthor(query, searchSpinner) {
+  searchSpinner.start();
   const [title, author] = query;
 
   let url = "https://www.googleapis.com/books/v1/volumes?q=";

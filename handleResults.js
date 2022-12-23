@@ -24,7 +24,6 @@ export async function handleResults(searchResults) {
 
   const res = choice.results;
 
-  // for viewability, split the choices into an array of book titles
   const titles = [];
 
   res.forEach((book) => {

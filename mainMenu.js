@@ -16,7 +16,6 @@ export async function mainMenu() {
     choices: options,
   });
 
-  // convert user input into an index of options
   let index = options.indexOf(choice["Main Menu"]);
 
   return index;
